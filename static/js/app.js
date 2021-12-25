@@ -375,7 +375,7 @@ async function pageLoadCalendarData(weekID, username) {
             //remove first three indexes of time[1]
             time[1] = time[1].substring(3);
             time = time[0] + time[1];
-
+            //asdd
 
             key = time+"-"+data[i].day_name;
             console.log(key);
