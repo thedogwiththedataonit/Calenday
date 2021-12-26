@@ -12,10 +12,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-        <script type="text/javascript" src="/static/js/app.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        
+        <script type="text/javascript" src="/static/js/app.js"></script>
         <title>Calenday</title>
     </head>
 
@@ -112,12 +111,10 @@
                                     </li id="8AM">
                                     <li></li>
                                     <li id="9AM">
-                                        <div class="single-event">
+                                        <div class="single-event blue">
                                             <span class="event-title">This is an event with a large text</span>
                                             <span class="event-time" style="padding-top: 3px;">07:00 - 08.00</span>
-                                            <span class="event-repetition"></span>
-                                            <span class="event-recurrence"></span>
-                                            <span class="event-calendar-overlay"></span>
+                                            <span class="label calendar-overlay">calendar overlay</span>
                                         </div>
                                     </li>
                                     <li id="10AM-{{calendar_weekdays[i]}}"></li>
@@ -162,13 +159,46 @@
                         <label>Add Title</label>
                       </div>
                     
-                    <input type="date" id="datepick" name="datepick" required>
-                    <input type="time" id="timepick" name="timepick" required>
-                    <button onclick="addEventSubmit('{{username}}');"> Submit </button>
+                    <div class="datetimebox">
+                        <input type="date" id="datepick" name="datepick" required>
+                        <input type="time" id="timepick" name="timepick" required>
+                        <select id="duration" class="duration" name="duration" required>
+                            <option value=".5">30 min</option>
+                            <option value="1">1 hr</option>
+                            <option value="1.5">1 hour 30 min</option>
+                            <option value="2">2 hours</option>
+                            <option value="2.5">2 hours 30 min</option>
+                            <option value="3">3 hours</option>
+                            <option value="3.5">3 hours 30 min</option>
+                            <option value="4">4 hours</option>
+                            <option value="4.5">4 hours 30 min </option>
+                            <option value="5">5 hours</option>
+                            <option value="5.5">5 hours 30 min</option>
+                            <option value="6">6 hours</option>
+                            <option value="6.5">6 hours 30 min</option>
+                            <option value="7">7 hours</option>
+                            <option value="7.5">7 hours 30 min</option>
+                            <option value="8">8 hours</option>
+                            <option value="8.5">8 hours 30 min</option>
+                            <option value="9">9 hours</option>
+                        </select>
+                        <select id="importance" class="importance" name="importance" required>
+                            <option value="1">Reminder</option>
+                            <option value="2">Task</option>
+                            <option value="3">Important</option>
+                        </select>
+                    </div>
+                    
+                    <textarea class="desc" id="desc" name="desc" cols="80" rows="5" placeholder="Description..."></textarea>
+                    <div class="buttonbox">
+                        <button class="calendarSubmitButton" onclick="addEventSubmit('{{username}}');"> Submit </button>
+                    </div>
+                    
                 </div>
             </div>
 
           </div>
+          
         </div>
         
 
@@ -186,7 +216,7 @@
               
               <div class="profile-box">
                     <img class="basic-profilepic" src="/static/img/basic-profilepic1.png">
-                    <h3>Thomas Park</h3>
+                    <h3>{{username}}</h3>
                     
 
               </div>
@@ -206,7 +236,7 @@
                   <a href="#0/">Profile</a>
                 </div>
           
-                <h1 class="title">Hello, Thomas</h1>
+                <h1 class="title">Hello {{username}}</h1>
           
                 <nav class="nav-tabs" id="nav-tabs">
                   <a href="#0" id="tasks" class="active">
@@ -285,5 +315,5 @@
 
           </div>
         </div>
-    
+        
     </body>

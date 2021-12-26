@@ -178,20 +178,25 @@ def create_calendar(data):
     username = data["username"]
     title = data["title"]
     date = data["date"]
+    print(date)
     time = data["time"]
+    duration = data["duration"]
+    importance = data["importance"]
+    desc = data["desc"]
+    day_name = data["day_name"]
     #description = data["description"]
 
     #given the date, find the date of monday and use it as the db key value
     date_split = date.split("-")
-    year = int(date_split[0])
-    month = int(date_split[1])
-    day = int(date_split[2])
+    year = int(date_split[2])
+    month = int(date_split[0])
+    day = int(date_split[1])
 
     #find the day of the week of date
-    datetime_object = datetime.datetime.strptime(date, '%Y-%m-%d')
+    datetime_object = datetime.datetime.strptime(date, '%m-%d-%Y')
 
     day_of_week = int(datetime_object.strftime("%w"))
-    day_of_week_name = datetime_object.strftime("%A")
+
     #print(day_of_week)
 
     week_of_query_day = day - day_of_week + 1
@@ -208,13 +213,21 @@ def create_calendar(data):
     print(week_of_query) #this will be the index used to query db
 
     description = "none"
-    mongodb_insert(week_of_query, username, title, date, time, day_of_week_name, description)
+    mongodb_insert(week_of_query, 
+                    username, 
+                    title, 
+                    date, 
+                    time, 
+                    duration,
+                    importance,
+                    day_name, 
+                    desc)
 
 
     return
 
 
-def mongodb_insert(weekID, username, title, date, time, day_name, description):
+def mongodb_insert(weekID, username, title, date, time, duration, importance, day_name, desc):
     cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
     db = cluster[username+"_calendar"]
     collection = db[weekID]
@@ -222,11 +235,17 @@ def mongodb_insert(weekID, username, title, date, time, day_name, description):
     #if exists, update the collection with new data
     if (collection.find_one({"date":date, "time":time})):
         #update the collection
-        collection.update_one({"date":date, "time":time}, {"$set": {"title":title, "day_name":day_name, "description":description}})
+        collection.update_one({"date":date, "time":time}, {"$set": {"title":title, "day_name":day_name, "duration": duration, "importance":importance, "desc":desc}})
         print("updated")
     else:
         #insert the data
-        collection.insert_one({"date":date, "time":time, "title":title, "day_name":day_name, "description":description})
+        collection.insert_one({"date":date, 
+                                "time":time, 
+                                "title":title, 
+                                "day_name":day_name, 
+                                "duration":duration,
+                                "importance":importance,
+                                "desc":desc})
         print("inserted")
     return
 #print(calendar_prev("lol","12-6-2021"))
@@ -251,6 +270,24 @@ def page_load_calendar_query(weekID, username):
         print(type(document_list))
         return document_list
 
+def alt_week_data(weekID, username):
+    cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
+    db = cluster[username+"_calendar"]
+    collection = db[weekID]
+    #get all the documents in the collection in a list
+    documents = collection.find({})
+    document_list = (list(documents))
+    #remove the _id field from each dictionary in the list
+    for i in range(len(document_list)):
+        document_list[i].pop("_id")
+
+    print(document_list)
+    #if document_list is empty list, return false
+    if (document_list == []):
+        return False
+    else:
+        print(type(document_list))
+        return document_list
 
 #print(page_load_calendar_query("11-29-2021", "admin"))
 #print(init_user_db())

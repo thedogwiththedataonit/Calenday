@@ -261,50 +261,101 @@ navTabs.forEach((tab) => {
 *************************************/
 
 function query_next(username) {
-    //grab the inner html of 
-    //fetch api
-    date = document.getElementById("hiddenweekcurrent").innerHTML;
-    fetch(`/api/calendar/${username}/${date}/next`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        //replace id=month with data.month and month.year
-        month = document.getElementById("month");
-        month.innerHTML = data.month + " " + data.year;
-        //replace the innerhtml of id="hiddenweekcurrent"
-        document.getElementById("hiddenweekcurrent").innerHTML = data.current_week;
+    var date = document.getElementById("hiddenweekcurrent").innerHTML;
+    var today = new Date(date);
+    var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);
+    var lastDayOfMonth = lastDayOfMonth.toString().split(' ');
+    var lastDayOfMonth = parseInt(lastDayOfMonth[2]);
+    var date_split = date.split("-");
+    var month = parseInt(date_split[0]);
+    var static_month = month;
+    var day = parseInt(date_split[1]);
+    var year = parseInt(date_split[2]);
+    var list_of_next_week = [day+7, day+8, day+9, day+10, day+11, day+12, day+13];
 
-        weekdaysul = document.getElementById("weekdaysul");
-        weekdaysul.innerHTML = "";
-        //loop through the weekdays and append them to the weekdaysul
-        for(i = 0; i < 7; i++){
-            weekdaysul.innerHTML += `<li id="${data.week_list[i]}" class="" data-weekday="${data.week_list[i]}"><span class="week-day-item">${data.week_list[i]}</span><span class="day-item">${data.week_num_dates[i]}</span></li>`;
+    for (var i = 0; i < list_of_next_week.length; i++) {
+        if (list_of_next_week[i] == lastDayOfMonth + 1) {
+            list_of_next_week[i] = 1;
+        }
+        if (list_of_next_week[i] > lastDayOfMonth) {
+            difference = Math.abs(list_of_next_week[i] - lastDayOfMonth);
+            list_of_next_week[i] = difference;
         }
     }
-    );
+
+    if (list_of_next_week.includes(7)) {
+        var month = month + 1;
+        if (month == 13) {
+            month = 1;
+            year = year + 1;
+        }
+        var current_week = month.toString() + "-" + list_of_next_week[0].toString() + "-" + year.toString();
+    }
+    else {
+            var current_week = static_month.toString() + "-" + list_of_next_week[0].toString() + "-" + year.toString();
+            month = static_month;
+        }
+        
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var week_list = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    calendar_month = document.getElementById("month");
+    calendar_month.innerHTML = months[month-1].toString() + " " + year.toString();
+    document.getElementById("hiddenweekcurrent").innerHTML = current_week;
+    weekdaysul = document.getElementById("weekdaysul");
+    weekdaysul.innerHTML = "";
+    
+    for(i = 0; i < 7; i++){
+        weekdaysul.innerHTML += `<li id="${week_list[i]}" class="" data-weekday="${week_list[i]}"><span class="week-day-item">${week_list[i]}</span><span class="day-item">${list_of_next_week[i]}</span></li>`;
+    }
+    
 }
 
 function query_prev(username) {
-    //fetch api
-    date = document.getElementById("hiddenweekcurrent").innerHTML;
-    fetch(`/api/calendar/${username}/${date}/prev`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        //replace id=month with data.month and month.year
-        month = document.getElementById("month");
-        month.innerHTML = data.month + " " + data.year;
-        //replace the innerhtml of id="hiddenweekcurrent"
-        document.getElementById("hiddenweekcurrent").innerHTML = data.current_week;
 
-        weekdaysul = document.getElementById("weekdaysul");
-        weekdaysul.innerHTML = "";
-        //loop through the weekdays and append them to the weekdaysul
-        for(i = 0; i < 7; i++){
-            weekdaysul.innerHTML += `<li id="${data.week_list[i]}" class="" data-weekday="${data.week_list[i]}"><span class="week-day-item">${data.week_list[i]}</span><span class="day-item">${data.week_num_dates[i]}</span></li>`;
+    var date = document.getElementById("hiddenweekcurrent").innerHTML;
+    var date_split = date.split("-");
+    var month = parseInt(date_split[0]);
+    var static_month = month;
+    var day = parseInt(date_split[1]);
+    var year = parseInt(date_split[2]);
+    var check = day - 7;
+
+    if (check <= 0) {
+        month = month - 1;
+        if (month == 0) {
+            month = 12;
+            year = year - 1;
+        }
+        var check_date = new Date(year, month, 0);
+        var lastDayOfMonth = new Date(check_date.getFullYear(), check_date.getMonth()+1, 0);
+        var lastDayOfMonth = lastDayOfMonth.toString().split(' ');
+        var lastDayOfPrevMonth = parseInt(lastDayOfMonth[2]);
+
+        list_of_prev_week = [lastDayOfPrevMonth + check, lastDayOfPrevMonth + check + 1, lastDayOfPrevMonth + check + 2, lastDayOfPrevMonth + check + 3, lastDayOfPrevMonth + check + 4, lastDayOfPrevMonth + check + 5, lastDayOfPrevMonth + check + 6];
+        for (var i = 0; i < list_of_prev_week.length; i++) {
+            if (list_of_prev_week[i] > lastDayOfPrevMonth) {
+                list_of_prev_week[i] = list_of_prev_week[i] - lastDayOfPrevMonth;
+            }
         }
     }
-    );
+    else {
+        list_of_prev_week = [day - 7, day - 6, day - 5, day - 4, day - 3, day - 2, day - 1];
+    }
+
+    var current_week = month.toString() + "-" + list_of_prev_week[0].toString() + "-" + year.toString();
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var week_list = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    calendar_month = document.getElementById("month");
+    calendar_month.innerHTML = months[month-1].toString() + " " + year.toString();
+    document.getElementById("hiddenweekcurrent").innerHTML = current_week;
+    weekdaysul = document.getElementById("weekdaysul");
+    weekdaysul.innerHTML = "";
+    
+    for(i = 0; i < 7; i++){
+        weekdaysul.innerHTML += `<li id="${week_list[i]}" class="" data-weekday="${week_list[i]}"><span class="week-day-item">${week_list[i]}</span><span class="day-item">${list_of_prev_week[i]}</span></li>`;
+    }
 }
 
 
@@ -318,15 +369,84 @@ function addEventSubmit(username) {
     //desc = document.getElementById("desc").value;
     date = document.getElementById("datepick").value;
     time = document.getElementById("timepick").value;
+    duration = document.getElementById("duration").value;
+    currentweek = document.getElementById("hiddenweekcurrent").innerHTML;
+    importance = document.getElementById("importance").value;
+    desc = document.getElementById("desc").value;
 
     console.log(title);
     console.log(date);
     console.log(time);
+    console.log(duration);
+    console.log(currentweek);
+    console.log(importance);
+    console.log(desc);
+    if(title == "" || date == "" || time == "" || duration == ""){
+        alert("Make sure to include the tite, time, date, and duration of the event");
+        return
+    }
+
+
+    currentweek = currentweek.split("-");
+    currentmonth = currentweek[0]
+    currentday = currentweek[1]
+    currentyear = currentweek[2]
+
+    selectedweek = date.split("-");
+    selectedmonth = selectedweek[1]
+    selectedday = parseInt(selectedweek[2])
+    selectedyear = selectedweek[0]
+
+    check = parseInt(currentday)+6;
+    console.log(check)
+    //turn currentday into an int
+    db_date = selectedmonth + "-" + selectedday + "-" + selectedyear;
+
+    list_of_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    date = new Date(selectedmonth + "-" + selectedday + "-" + selectedyear);
+    let day = date.getDay()
+    day_name = list_of_days[day];
+    console.log(day_name);
+
+    if(selectedmonth == currentmonth && selectedyear == currentyear && selectedday <= check){
+        //add to current calendar
+        time = (convert(time));
+        time = time.split(":");
+        //remove first three indexes of time[1]
+        time[1] = time[1].substring(3);
+        time = time[0] + time[1];
+ 
+        key = time + "-" + day_name;
+        console.log(key);
+        li = document.getElementById(key);
+        li.innerHTML += `<div class="single-event"><span class="event-title">${title}</span></div>`;
+
+    }
+
+    //if title, date, time, and duration are empty, alert 
+    
+    
+    //split currentweek into an array by "-"
+    
+    //imputs needed, title, starttime, duration, date, desc, importance, event rep,
+    
+
+
+
+    //DO ALL CALENDAR LOGIC HERE WITH A LOADER BUTTON, IF ON A DIFF PAGE, JUST ADD TO DB
+
+    //turn date into string and split by "T"
 
     const data = { username: username,
                    title: title,
-                   date: date,  
+                   date: db_date,  
                    time: time,
+                   duration: duration,
+                   importance: importance,
+                   desc:desc,
+                   day_name: day_name,
+                   //currentweek: currentweek, #done serverside to account for non current weeks
+
                  };
 
     fetch('/api/createcalendar', {
@@ -343,11 +463,16 @@ function addEventSubmit(username) {
     .catch((error) => {
     console.error('Error:', error);
     });
+
+    //change the view back to the calendar
+    document.getElementById('addView').style.display = "none";
+    return
 }
 
 function back() {
     //change the display of "purchase_box" to none
     document.getElementById('addView').style.display = "none";
+    return
     
 }
 
@@ -355,7 +480,7 @@ function convert(input) {
     return moment(input, 'HH:mm').format('h:mm A');
 }
 
-async function pageLoadCalendarData(weekID, username) {
+async function pageLoadCalendarData(weekID, username) { //make faster
     console.log(weekID);
     console.log(username);
 
@@ -382,9 +507,6 @@ async function pageLoadCalendarData(weekID, username) {
             //find li with id=key and add the event to it
             li = document.getElementById(key);
             li.innerHTML += `<div class="single-event"><span class="event-title">${data[i].title}</span></div>`;
-
-
-            
         }
 
 

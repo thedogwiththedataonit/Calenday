@@ -75,8 +75,14 @@ def app(username):
 "========== Api Calendar ==========="
 @application.route("/api/calendar/<username>/<date>/next", methods=["GET"])
 def api_calendar_next(username, date):
+    next_week = calendar_next(username, date) #do I really need to api for this? Maybe i can do this in js
+    
+    next_week_data = alt_week_data(next_week["current_week"], username)
+    
 
-    return jsonify(calendar_next(username, date)) #REPLACE THE CURRENT WEEK VALUE
+    data = {'week': next_week,
+            }
+    return jsonify(data) #REPLACE THE CURRENT WEEK VALUE
 
 
 @application.route("/api/calendar/<username>/<date>/prev", methods=["GET"])
