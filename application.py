@@ -73,22 +73,10 @@ def app(username):
 
 
 "========== Api Calendar ==========="
-@application.route("/api/calendar/<username>/<date>/next", methods=["GET"])
-def api_calendar_next(username, date):
-    next_week = calendar_next(username, date) #do I really need to api for this? Maybe i can do this in js
-    
-    next_week_data = alt_week_data(next_week["current_week"], username)
-    
+@application.route("/api/calendar/<username>/<date>", methods=["GET"])
+def api_calendar_data(username, date):  #date is current_week or weekID
 
-    data = {'week': next_week,
-            }
-    return jsonify(data) #REPLACE THE CURRENT WEEK VALUE
-
-
-@application.route("/api/calendar/<username>/<date>/prev", methods=["GET"])
-def api_calendar_prev(username, date):
-
-    return jsonify(calendar_prev(username, date)) #REPLACE THE CURRENT WEEK VALUE
+    return jsonify(alt_week_data(date, username)) #REPLACE THE CURRENT WEEK VALUE
 
 @application.route("/api/createcalendar", methods=["GET", "POST"])
 def api_calendar_create():
@@ -99,12 +87,17 @@ def api_calendar_create():
         printit(data)
         create_calendar(data)
         return jsonify(data)
-    
+
 @application.route("/api/getcalendar/<username>/<weekID>", methods=["GET"])
 def api_calendar_get(weekID, username):
     calendar_data = page_load_calendar_query(weekID, username)
     return jsonify(calendar_data)
 
+@application.route('/emptycalendar.html', methods=["GET"])
+def emptycalendar():
+    return render_template('emptycalendar.html')
+
+    
 if __name__ == "__main__":
     # turn debug off for prodcution deployment
     application.run(debug=True, host='0.0.0.0')

@@ -97,20 +97,20 @@
                             <li>12:00 AM</li>
                         </ul>
 
-                        <ul class="days">
+                        <ul class="days" id="days">
                             {% for i in range(7) %}
                             <li data-weekday="{{calendar_weekdays[i]}}" id="{{calendar_days[i]}}">
                                 <ul class="day-li">
-                                    <li id="7AM">
+                                    <li id="7AM-{{calendar_weekdays[i]}}">
                                         <div class="single-event meeting">
                                             <span class="event-title">This is an event with a large text</span>
                                             <span class="event-time" style="padding-top: 3px;">07:00 - 08.00</span>
                                             <span class="event-recurrence">Every Year</span>
                                             <span class="label calendar-overlay">calendar overlay</span>
                                         </div>
-                                    </li id="8AM">
+                                    </li id="8AM-{{calendar_weekdays[i]}}">
                                     <li></li>
-                                    <li id="9AM">
+                                    <li id="9AM-{{calendar_weekdays[i]}}">
                                         <div class="single-event blue">
                                             <span class="event-title">This is an event with a large text</span>
                                             <span class="event-time" style="padding-top: 3px;">07:00 - 08.00</span>
@@ -137,6 +137,26 @@
                             
                             {% endfor %}
                         </ul>
+
+                        <div class="loader" id="loader" style="display:none;" >
+                            <div class="loader-inner">
+                              <div class="loader-line-wrap">
+                                <div class="loader-line"></div>
+                              </div>
+                              <div class="loader-line-wrap">
+                                <div class="loader-line"></div>
+                              </div>
+                              <div class="loader-line-wrap">
+                                <div class="loader-line"></div>
+                              </div>
+                              <div class="loader-line-wrap">
+                                <div class="loader-line"></div>
+                              </div>
+                              <div class="loader-line-wrap">
+                                <div class="loader-line"></div>
+                              </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -192,6 +212,99 @@
                     <textarea class="desc" id="desc" name="desc" cols="80" rows="5" placeholder="Description..."></textarea>
                     <div class="buttonbox">
                         <button class="calendarSubmitButton" onclick="addEventSubmit('{{username}}');"> Submit </button>
+                        <script>
+                            function addEventSubmit(username) { //if am? alert false
+                                //grab the values from title, datepick, and timepick
+                                title = document.getElementById("title").value;
+                                //desc = document.getElementById("desc").value;
+                                date = document.getElementById("datepick").value;
+                                time = document.getElementById("timepick").value;
+                                duration = document.getElementById("duration").value;
+                                currentweek = document.getElementById("hiddenweekcurrent").innerHTML;
+                                importance = document.getElementById("importance").value;
+                                desc = document.getElementById("desc").value;
+                                console.log(currentweek)
+                                console.log(title);
+                                console.log(date);
+                                console.log(time);
+                                console.log(duration);
+                                console.log(currentweek);
+                                console.log(importance);
+                                console.log(desc);
+                                if(title == "" || date == "" || time == "" || duration == ""){
+                                    alert("Make sure to include the tite, time, date, and duration of the event");
+                                    return
+                                }
+
+
+                                currentweek = currentweek.split("-");
+                                currentmonth = currentweek[0]
+                                currentday = currentweek[1]
+                                currentyear = currentweek[2]
+
+                                selectedweek = date.split("-");
+                                selectedmonth = selectedweek[1]
+                                selectedday = parseInt(selectedweek[2])
+                                selectedyear = selectedweek[0]
+
+                                check = parseInt(currentday)+6;//account for the end of the month!!!
+                                console.log(check)
+                                //turn currentday into an int
+                                db_date = selectedmonth + "-" + selectedday + "-" + selectedyear;
+
+                                list_of_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                                date = new Date(selectedmonth + "-" + selectedday + "-" + selectedyear);
+                                let day = date.getDay()
+                                day_name = list_of_days[day];
+                                console.log(day_name);
+
+                                if(selectedmonth == currentmonth && selectedyear == currentyear && selectedday <= check){
+                                    //add to current calendar
+                                    time = (convert(time));
+                                    time = time.split(":");
+                                    //remove first three indexes of time[1]
+                                    time[1] = time[1].substring(3);
+                                    time = time[0] + time[1];
+                            
+                                    key = time + "-" + day_name;
+                                    console.log(key);
+                                    li = document.getElementById(key);
+                                    li.innerHTML = `<div class="single-event"><span class="event-title">${title}</span></div>`;
+
+                                }
+
+                                const data = { username: username,
+                                            title: title,
+                                            date: db_date,  
+                                            time: time,
+                                            duration: duration,
+                                            importance: importance,
+                                            desc:desc,
+                                            day_name: day_name,
+                                            //currentweek: currentweek, #done serverside to account for non current weeks
+
+                                            };
+
+                                fetch('/api/createcalendar', {
+                                method: 'POST', // or 'PUT'
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                console.log('Success:', data);
+                                })
+                                .catch((error) => {
+                                console.error('Error:', error);
+                                });
+
+                                //change the view back to the calendar
+                                document.getElementById('addView').style.display = "none";
+                                return
+                            }
+                        </script>
                     </div>
                     
                 </div>

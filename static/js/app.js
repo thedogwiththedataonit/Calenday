@@ -261,6 +261,7 @@ navTabs.forEach((tab) => {
 *************************************/
 
 function query_next(username) {
+    $('#days').load('/emptycalendar.html');
     var date = document.getElementById("hiddenweekcurrent").innerHTML;
     var today = new Date(date);
     var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);
@@ -309,10 +310,40 @@ function query_next(username) {
         weekdaysul.innerHTML += `<li id="${week_list[i]}" class="" data-weekday="${week_list[i]}"><span class="week-day-item">${week_list[i]}</span><span class="day-item">${list_of_next_week[i]}</span></li>`;
     }
     
+    fetch(`/api/calendar/${username}/${current_week}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+
+        if (data == false) {
+            return;
+        }
+        else {
+            for(i = 0; i < data.length; i++){
+
+                time = data[i].time;
+                key = time+"-"+data[i].day_name;
+                console.log(key);
+                //find li with id=key and add the event to it
+                li = document.getElementById(key);
+                li.innerHTML = `<div class="single-event"><span class="event-title">${data[i].title}</span></div>`;
+            }
+        }
+    })
+
+    setTimeout(function(){
+		//set loader display to flex for 5 seconds
+		$(loader).css("display", "flex");
+		//set the loader to display none after 5 seconds
+		setTimeout(function(){
+			$(loader).css("display", "none");
+		}
+		, 1800);
+	});
 }
 
 function query_prev(username) {
-
+    $('#days').load('/emptycalendar.html');
     var date = document.getElementById("hiddenweekcurrent").innerHTML;
     var date_split = date.split("-");
     var month = parseInt(date_split[0]);
@@ -356,6 +387,37 @@ function query_prev(username) {
     for(i = 0; i < 7; i++){
         weekdaysul.innerHTML += `<li id="${week_list[i]}" class="" data-weekday="${week_list[i]}"><span class="week-day-item">${week_list[i]}</span><span class="day-item">${list_of_prev_week[i]}</span></li>`;
     }
+
+    fetch(`/api/calendar/${username}/${current_week}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+
+        if (data == false) {
+            return;
+        }
+        else {
+            for(i = 0; i < data.length; i++){
+
+                time = data[i].time;
+                key = time+"-"+data[i].day_name;
+                console.log(key);
+                //find li with id=key and add the event to it
+                li = document.getElementById(key);
+                li.innerHTML = `<div class="single-event"><span class="event-title">${data[i].title}</span></div>`;
+            }
+        }
+    })
+
+    setTimeout(function(){
+		//set loader display to flex for 5 seconds
+		$(loader).css("display", "flex");
+		//set the loader to display none after 5 seconds
+		setTimeout(function(){
+			$(loader).css("display", "none");
+		}
+		, 1800);
+	});
 }
 
 
@@ -363,7 +425,7 @@ function addNewEvent() {
     document.getElementById('addView').style.display = "flex";
 }
 
-function addEventSubmit(username) {
+function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG INSERTED
     //grab the values from title, datepick, and timepick
     title = document.getElementById("title").value;
     //desc = document.getElementById("desc").value;
@@ -373,7 +435,7 @@ function addEventSubmit(username) {
     currentweek = document.getElementById("hiddenweekcurrent").innerHTML;
     importance = document.getElementById("importance").value;
     desc = document.getElementById("desc").value;
-
+    console.log(currentweek)
     console.log(title);
     console.log(date);
     console.log(time);
@@ -397,7 +459,7 @@ function addEventSubmit(username) {
     selectedday = parseInt(selectedweek[2])
     selectedyear = selectedweek[0]
 
-    check = parseInt(currentday)+6;
+    check = parseInt(currentday)+6;//account for the end of the month!!!
     console.log(check)
     //turn currentday into an int
     db_date = selectedmonth + "-" + selectedday + "-" + selectedyear;
@@ -419,23 +481,9 @@ function addEventSubmit(username) {
         key = time + "-" + day_name;
         console.log(key);
         li = document.getElementById(key);
-        li.innerHTML += `<div class="single-event"><span class="event-title">${title}</span></div>`;
+        li.innerHTML = `<div class="single-event"><span class="event-title">${title}</span></div>`;
 
     }
-
-    //if title, date, time, and duration are empty, alert 
-    
-    
-    //split currentweek into an array by "-"
-    
-    //imputs needed, title, starttime, duration, date, desc, importance, event rep,
-    
-
-
-
-    //DO ALL CALENDAR LOGIC HERE WITH A LOADER BUTTON, IF ON A DIFF PAGE, JUST ADD TO DB
-
-    //turn date into string and split by "T"
 
     const data = { username: username,
                    title: title,
@@ -494,22 +542,26 @@ async function pageLoadCalendarData(weekID, username) { //make faster
         for(i = 0; i < data.length; i++){
             //turn military time into standard time
             
-            time = (convert(data[i].time));
-            //split time by ":"
-            time = time.split(":");
-            //remove first three indexes of time[1]
-            time[1] = time[1].substring(3);
-            time = time[0] + time[1];
+            time = data[i].time;
+            
             //asdd
 
             key = time+"-"+data[i].day_name;
             console.log(key);
             //find li with id=key and add the event to it
             li = document.getElementById(key);
-            li.innerHTML += `<div class="single-event"><span class="event-title">${data[i].title}</span></div>`;
+            li.innerHTML = `<div class="single-event"><span class="event-title">${data[i].title}</span></div>`;
         }
 
 
     });
-    
+    setTimeout(function(){
+		//set loader display to flex for 5 seconds
+		$(loader).css("display", "flex");
+		//set the loader to display none after 5 seconds
+		setTimeout(function(){
+			$(loader).css("display", "none");
+		}
+		, 1800);
+	});
 }
