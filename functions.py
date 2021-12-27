@@ -54,7 +54,8 @@ def register(username, email, password):
         collection.insert_one({"username": username, 
                                 "password": password, 
                                 "email": email, 
-                                "friends": []
+                                "friends": [],
+                                "requests": [],
                                 })
         cluster.close()
         return True
@@ -215,6 +216,45 @@ def alt_week_data(weekID, username):
         print(type(document_list))
         return document_list
 
+
+
+" =========== App Friends =========== "
+
+def add_friend(data):
+    username = data["username"]
+    friend= data["friend"]
+
+    cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
+    db = cluster["users"]
+    collection = db["logins"]
+    
+    if (collection.find_one({"username":friend})): #if friend exists
+        usernames_friends = collection.find_one({"username":username})["friends"]
+        friends_requests = collection.find_one({"username":friend})["requests"]
+
+        if (friend in usernames_friends):
+            return "Already friends"
+        if (friend not in usernames_friends) and (username not in friends_requests):
+            #add username to friends requests list
+            collection.update_one({"username":friend}, {"$push":{"requests":username}})
+            return "Friend request sent"
+        else: 
+            return "Already requested"
+    else:
+        return "Friend not found"
+
+def friend_requests(username):
+    cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
+    db = cluster["users"]
+    collection = db["logins"]
+    requests = collection.find_one({"username":username})["requests"]
+    return requests
+
+
+#print(add_friend({"username":"admin", "friend":"lol"}))
+
+
+print(friend_requests("admin"))
 #print(page_load_calendar_query("11-29-2021", "admin"))
 #print(init_user_db())
 #print(logins("admin", "root"))

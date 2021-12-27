@@ -227,15 +227,6 @@ $(document).ready(function(){
         DASHBOARD PANEL NAV HIDERS
 *************************************/
 $(document).ready(function(){
-    $("#notes").click(function(){
-        //change id="support_content" to display:block
-        support = document.getElementById("taskscolumn");
-        support.style.display = "none";
-        
-    });
-}
-);
-$(document).ready(function(){
     $("#tasks").click(function(){
         //change id="support_content" to display:block
         support = document.getElementById("taskscolumn");
@@ -435,8 +426,37 @@ function addfriendsubmit(username) {
     document.getElementById("friendresponsebox").innerHTML = "";
     var p = document.createElement("p");
     p.className = "friend-response";
-    p.innerHTML = `Friend request sent to ${friend}`;
+    p.innerHTML = "loading...";
     document.getElementById("friendresponsebox").appendChild(p);
+    if (friend == username) {
+        document.getElementById("friendresponsebox").innerHTML = "You can't add yourself!";
+        return;
+    }
+    data = {
+        "username": username,
+        "friend" : friend
+    }
+    fetch('/api/addfriend', {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        document.getElementById("friendresponsebox").innerHTML = "";
+        p.innerHTML = data;
+        document.getElementById("friendresponsebox").appendChild(p);
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+    
+
+
+    
 }
 function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG INSERTED
     //grab the values from title, datepick, and timepick
@@ -534,8 +554,26 @@ function calendarback() {
     //change the display of "purchase_box" to none
     document.getElementById('addView').style.display = "none";
     return
-    
 }
+
+function queryfriendrequests(username) {
+    main = document.getElementById("taskscolumn");
+    main.style.display = "none";
+    friendrequestbox = document.getElementById("friendrequestbox");
+    friendrequestbox.style.display = "flex";
+
+    fetch (`/api/friendrequests/${username}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+
+}
+
 function friendback() {
     document.getElementById("usernameinput").value = "";
     document.getElementById("friendresponsebox").innerHTML = "";
@@ -556,6 +594,9 @@ async function pageLoadCalendarData(username) { //TIE EVENTS WITH A UNIQUE ID
     months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     month_title = months[month-1];
     day_order = date_now.getDay();
+
+    maindate = month_title + " " + day + ", " + year;
+    document.getElementById("datemain").innerHTML = maindate;
 
     if (day_order == 0) {
         day_order = 7;

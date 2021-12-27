@@ -83,6 +83,19 @@ def api_calendar_get(weekID, username):
 def emptycalendar():
     return render_template('emptycalendar.html')
 
+@application.route("/api/addfriend", methods=["GET", "POST"])
+def addfriend():
+    if request.method == "POST":
+        data = request.json
+        printit(data)
+        response = add_friend(data)
+        printit(response)
+        return jsonify(response)
+
+@application.route("/api/friendrequests/<username>", methods=["GET"])
+def friendrequests(username):
+    data = friend_requests(username)
+    return jsonify(data)
 
 if __name__ == "__main__":
     # turn debug off for prodcution deployment
