@@ -300,6 +300,71 @@ Structure might be a bit different from layout to layout
   align-items: center;
 }
 
+.addFriend {
+  background-color: #292f4b;
+  opacity: 0.9;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addfriendcontent {
+  background-color: #ffffff;
+  width: 60%;
+  height: 20%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 15px;
+  flex-direction: column;
+  display: flex;
+  margin-bottom: 25%;
+  justify-content: center;
+  align-items: center;
+}
+.usernameinput {
+  font-size: 20px;
+  font-weight: 450;
+  width: 60%;
+  border: none;
+  border-bottom: solid 1px #004bad;
+}
+.addfriendbutton {
+  width: 25%;
+  color: #fafafa;
+  font-size: 15px;
+  font-weight: 400;
+  border: none;
+  background-color: dodgerblue;
+  border-radius: 15px;
+}
+.addfriendbutton:hover {
+  border: 2px solid rgb(0, 105, 14);
+  background-color: rgb(0, 180, 24);
+}
+.friendresponsebox {
+  width: 80%;
+  height: 15%;
+  margin-top: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.friendrepsonse {
+  font-size: 18px;
+  font-weight: 450;
+  color: #004bad;
+}
+.rowbox {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 .back {
   width: 100px;
   height: 40px;
@@ -312,6 +377,9 @@ Structure might be a bit different from layout to layout
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+}
+.back:hover {
+  border: 2px solid #ffffff;
 }
 .back h1 {
   font-size: 20px;
@@ -333,7 +401,14 @@ Structure might be a bit different from layout to layout
   justify-content: center;
   align-items: center;
 }
-
+.right-content-chat {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 /* CALENDAR INPUT THING*/
 .group {
   position: relative;
@@ -1712,13 +1787,7 @@ VIEW BELOW 350px */
     AND COLORS
 ******************/
 
-.bt-calendar.weekly-layout
-  .calendar-table
-  ul.days
-  li
-  ul
-  li
-  .single-event.red {
+.bt-calendar.weekly-layout .calendar-table ul.days li ul li .single-event.red {
   border-left: solid 2px red !important;
 }
 
@@ -1998,7 +2067,7 @@ main > header {
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: cadetblue;
+  background-color: #3c8aff7c;
   margin: 0 0 0 0;
 }
 
@@ -2010,9 +2079,30 @@ main > header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
+.topfriendbar {
+  position: relative;
+  width: 100%;
+  height: 5%;
+  background-color: rgb(255, 255, 255);
+  display: inline-flex;
+  justify-content: space-evenly;
+}
+.search-bar {
+  border: none;
+  width: 80%;
+}
+.friend-icon {
+  margin-top: 5px;
+  width: 30px;
+  height: 30px;
+}
+.friend-icon:hover {
+  cursor: pointer;
+  filter: invert(46%) sepia(94%) saturate(2788%) hue-rotate(192deg)
+    brightness(101%) contrast(101%);
+}
 /* ######## SUPPORT PAGE ######## */
 
 .support-container {

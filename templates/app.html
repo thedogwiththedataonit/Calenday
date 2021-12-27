@@ -447,7 +447,7 @@
             </div>
 
             <div class="addView" id="addView" style="display:none;" >
-                <div class="back" id="back" onclick="back();">
+                <div class="back" id="back" onclick="calendarback();">
                     <h1>Back</h1>
                 </div>
                 <div class="addCalendarContent" id="addCalendarContent">
@@ -698,9 +698,32 @@
         <div class="ui container" id="friends-content">
             <div class="chat-container">
               <div class="left-bar">
+                <div class="topfriendbar">
+                    <input class="search-bar" type="text" placeholder="Search">
+                    <img class="friend-icon" src="/static/img/addfriend.png" onclick="addNewFriend();">
+                </div>
                 <p> You have no friends... </p>
               </div>
+
+              <div class="right-content-chat">
+                <div class="addFriend" id="addFriend" style="display:none;">
+                    <div class="back" id="back" onclick="friendback();">
+                        <h1>Back</h1>
+                    </div>
+                    <div class="addfriendcontent">
+                        <div class="rowbox">
+                            <input class="usernameinput" id="usernameinput" type="text" placeholder="Username">
+                            <button class="addfriendbutton" onclick="addfriendsubmit('{{username}}');">Add Friend</button>
+                        </div>
+                        <div class="friendresponsebox" id="friendresponsebox">
+                            
+                        </div>
+                    </div>
+                </div>
+              </div>
             </div>
+
+            
         </div>
         
         <div class="support-content" id="support-content">

@@ -426,7 +426,18 @@ function query_prev(username) {
 function addNewEvent() {
     document.getElementById('addView').style.display = "flex";
 }
-
+function addNewFriend() {
+    document.getElementById('addFriend').style.display = "flex";
+}
+function addfriendsubmit(username) {
+    var friend = document.getElementById("usernameinput").value;
+    console.log(friend);
+    document.getElementById("friendresponsebox").innerHTML = "";
+    var p = document.createElement("p");
+    p.className = "friend-response";
+    p.innerHTML = `Friend request sent to ${friend}`;
+    document.getElementById("friendresponsebox").appendChild(p);
+}
 function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG INSERTED
     //grab the values from title, datepick, and timepick
     title = document.getElementById("title").value;
@@ -519,11 +530,17 @@ function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG I
     return
 }
 
-function back() {
+function calendarback() {
     //change the display of "purchase_box" to none
     document.getElementById('addView').style.display = "none";
     return
     
+}
+function friendback() {
+    document.getElementById("usernameinput").value = "";
+    document.getElementById("friendresponsebox").innerHTML = "";
+    document.getElementById('addFriend').style.display = "none";
+    return
 }
 
 function convert(input) {

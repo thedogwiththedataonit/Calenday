@@ -51,7 +51,11 @@ def register(username, email, password):
     collection = db["logins"]
     user = collection.find_one({"username": username})
     if user is None:
-        collection.insert_one({"username": username, "password": password, "email": email})
+        collection.insert_one({"username": username, 
+                                "password": password, 
+                                "email": email, 
+                                "friends": []
+                                })
         cluster.close()
         return True
     else:
