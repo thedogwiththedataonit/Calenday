@@ -1718,7 +1718,7 @@ VIEW BELOW 350px */
   li
   ul
   li
-  .single-event.meeting {
+  .single-event.red {
   border-left: solid 2px red !important;
 }
 
@@ -1728,7 +1728,7 @@ VIEW BELOW 350px */
   li
   ul
   li
-  .single-event.meeting
+  .single-event.red
   .event-title {
   color: red;
 }
@@ -1741,7 +1741,7 @@ VIEW BELOW 350px */
   border-left: solid 2px yellow !important;
 }
 
-.day-events-number.meeting {
+.day-events-number.red {
   background-color: red;
 }
 

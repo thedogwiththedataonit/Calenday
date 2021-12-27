@@ -65,7 +65,8 @@ def register(username, email, password):
 
 
 def calendar_current_date():
-    date_now = datetime.datetime.now()
+    date_now = datetime.datetime.now() #does this mean time is dependent on server?
+    print(date_now)
     day_num = int(date_now.strftime("%d"))
     day = (date_now.strftime("%A"))
     month = (date_now.strftime("%B"))
@@ -85,7 +86,7 @@ def calendar_current_date():
     
     month_num = int(date_now.strftime("%m"))
     current_week = str(month_num)+"-"+str(week_num_dates[0])+"-"+str(year)
-
+    print(current_week)
     #create a list of 7 empty strings except for the day_num index value of "active"
     calendar_days = [""]*7
     calendar_days[day_order-1] = "active"
@@ -97,12 +98,12 @@ def create_calendar(data):
     username = data["username"]
     title = data["title"]
     date = data["date"]
-    print(date)
     time = data["time"]
     duration = data["duration"]
     importance = data["importance"]
     desc = data["desc"]
     day_name = data["day_name"]
+    key = data["key"]
     #description = data["description"]
 
     #given the date, find the date of monday and use it as the db key value
@@ -115,8 +116,8 @@ def create_calendar(data):
     datetime_object = datetime.datetime.strptime(date, '%m-%d-%Y')
 
     day_of_week = int(datetime_object.strftime("%w"))
-
-    #print(day_of_week)
+    if day_of_week == 0:
+        day_of_week = 7
 
     week_of_query_day = day - day_of_week + 1
     #print(week_of_query_day)
@@ -140,13 +141,14 @@ def create_calendar(data):
                     duration,
                     importance,
                     day_name, 
-                    desc)
+                    desc,
+                    key)
 
 
     return
 
 
-def mongodb_insert(weekID, username, title, date, time, duration, importance, day_name, desc):
+def mongodb_insert(weekID, username, title, date, time, duration, importance, day_name, desc, key):
     cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
     db = cluster[username+"_calendar"]
     collection = db[weekID]
@@ -154,7 +156,7 @@ def mongodb_insert(weekID, username, title, date, time, duration, importance, da
     #if exists, update the collection with new data
     if (collection.find_one({"date":date, "time":time})):
         #update the collection
-        collection.update_one({"date":date, "time":time}, {"$set": {"title":title, "day_name":day_name, "duration": duration, "importance":importance, "desc":desc}})
+        collection.update_one({"date":date, "time":time}, {"$set": {"title":title, "day_name":day_name, "duration": duration, "importance":importance, "desc":desc, "key":key}})
         print("updated")
     else:
         #insert the data
@@ -164,7 +166,8 @@ def mongodb_insert(weekID, username, title, date, time, duration, importance, da
                                 "day_name":day_name, 
                                 "duration":duration,
                                 "importance":importance,
-                                "desc":desc})
+                                "desc":desc,
+                                "key":key})
         print("inserted")
     return
 #print(calendar_prev("lol","12-6-2021"))

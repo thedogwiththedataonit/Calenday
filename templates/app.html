@@ -18,7 +18,7 @@
         <title>Calenday</title>
     </head>
 
-    <body onload="pageLoadCalendarData('{{current_week}}', '{{username}}')">
+    <body onload="pageLoadCalendarData('{{username}}')">
         <nav class="navbar navbar-expand-custom navbar-mainbg">
             <a class="navbar-brand navbar-logo" href="#">Calenday</a>
             <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,8 +55,8 @@
                                         <i class="fa fa-angle-left white fa-3x" aria-hidden="true"></i>
                                     </a>
                                 </li>
-                                <li class="month" id="month">{{calendar_month}} {{calendar_year}}</li>
-                                <p id="hiddenweekcurrent" style="display:none">{{current_week}}</p>
+                                <li class="month" id="month"></li>
+                                <p id="hiddenweekcurrent" style="display:none"></p>
                                 <li class="next">
                                     <a class="btn" onclick="query_next('{{username}}')">
                                         <i class="fa fa-angle-right white fa-3x" aria-hidden="true"></i>
@@ -65,15 +65,41 @@
                             </ul>
                         </div>
                         <ul class="weekdays" id="weekdaysul">
-                            {% for i in range(7) %}
-                            
-                            <li id="{{calendar_weekdays[i]}}" class="{{calendar_active[i]}}" data-weekday="{{calendar_weekdays[i]}}">
-                                <span class="week-day-item">{{calendar_weekdays[i]}}</span>
-                                <span class="day-item">{{calendar_days[i]}}</span>
+                            <li id="Monday" class="" data-weekday="Monday">
+                                <span class="week-day-item">Monday</span>
+                                <span class="day-item" id="day-item-Monday"></span>
+                            </li>
+
+                            <li id="Tuesday" class="" data-weekday="Tuesday">
+                                <span class="week-day-item">Tuesday</span>
+                                <span class="day-item" id="day-item-Tuesday"></span>
                             </li>
                             
+                            <li id="Wednesday" class="" data-weekday="Wednesday">
+                                <span class="week-day-item">Wednesday</span>
+                                <span class="day-item" id="day-item-Wednesday"></span>
+                            </li>
 
-                            {% endfor %}
+                            <li id="Thursday" class="" data-weekday="Thursday">
+                                <span class="week-day-item">Thursday</span>
+                                <span class="day-item" id="day-item-Thursday"></span>
+                            </li>
+                            
+                            <li id="Friday" class="" data-weekday="Friday">
+                                <span class="week-day-item">Friday</span>
+                                <span class="day-item" id="day-item-Friday"></span>
+                            </li>
+
+                            <li id="Saturday" class="" data-weekday="Saturday">
+                                <span class="week-day-item">Saturday</span>
+                                <span class="day-item" id="day-item-Saturday"></span>
+                            </li>
+
+                            <li id="Sunday" class="" data-weekday="Sunday">
+                                <span class="week-day-item">Sunday</span>
+                                <span class="day-item" id="day-item-Sunday"></span>
+                            </li>
+
                         </ul>
 
                         <ul class="day-time">
@@ -98,44 +124,297 @@
                         </ul>
 
                         <ul class="days" id="days">
-                            {% for i in range(7) %}
-                            <li data-weekday="{{calendar_weekdays[i]}}" id="{{calendar_days[i]}}">
+                            <li data-weekday="Monday" id="Monday">
                                 <ul class="day-li">
-                                    <li id="7AM-{{calendar_weekdays[i]}}">
-                                        <div class="single-event meeting">
-                                            <span class="event-title">This is an event with a large text</span>
-                                            <span class="event-time" style="padding-top: 3px;">07:00 - 08.00</span>
-                                            <span class="event-recurrence">Every Year</span>
-                                            <span class="label calendar-overlay">calendar overlay</span>
-                                        </div>
-                                    </li id="8AM-{{calendar_weekdays[i]}}">
-                                    <li></li>
-                                    <li id="9AM-{{calendar_weekdays[i]}}">
+                                    <li id="7AM-Monday">
                                         <div class="single-event blue">
                                             <span class="event-title">This is an event with a large text</span>
                                             <span class="event-time" style="padding-top: 3px;">07:00 - 08.00</span>
                                             <span class="label calendar-overlay">calendar overlay</span>
                                         </div>
                                     </li>
-                                    <li id="10AM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="11AM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="12PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="1PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="2PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="3PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="4PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="5PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="6PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="7PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="8PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="9PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="10PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="11PM-{{calendar_weekdays[i]}}"></li>
-                                    <li id="12AM-{{calendar_weekdays[i]}}"></li>
+                                    <li id="8AM-Monday">
+                                        <div class="single-event meeting">
+                                            <span class="event-title">This is an event with a large text</span>
+                                            <span class="event-time" style="padding-top: 3px;">07:00 - 08.00</span>
+                                            <span class="event-recurrence">Every Year</span>
+                                            <span class="label calendar-overlay">calendar overlay</span>
+                                        </div>
+                                    </li>
+                                    <li id="9AM-Monday">
+                                    </li>
+                                    <li id="10AM-Monday">
+                                    </li>
+                                    <li id="11AM-Monday">
+                                    </li>
+                                    <li id="12PM-Monday">
+                                    </li>
+                                    <li id="1PM-Monday">
+                                    </li>
+                                    <li id="2PM-Monday">
+                                    </li>
+                                    <li id="3PM-Monday">
+                                    </li>
+                                    <li id="4PM-Monday">
+                                    </li>
+                                    <li id="5PM-Monday">
+                                    </li>
+                                    <li id="6PM-Monday">
+                                    </li>
+                                    <li id="7PM-Monday">
+                                    </li>
+                                    <li id="8PM-Monday">
+                                    </li>
+                                    <li id="9PM-Monday">
+                                    </li>
+                                    <li id="10PM-Monday">
+                                    </li>
+                                    <li id="11PM-Monday">
+                                    </li>
+                                    <li id="12AM-Monday">
+                                    </li>
                                 </ul>
                             </li>
-                            
-                            {% endfor %}
+                            <li data-weekday="Tuesday" id="Tuesday">
+                                <ul class="day-li">
+                                    <li id="7AM-Tuesday">
+                                    </li>
+                                    <li id="8AM-Tuesday">
+                                    </li>
+                                    <li id="9AM-Tuesday">
+                                    </li>
+                                    <li id="10AM-Tuesday">
+                                    </li>
+                                    <li id="11AM-Tuesday">
+                                    </li>
+                                    <li id="12PM-Tuesday">
+                                    </li>
+                                    <li id="1PM-Tuesday">
+                                    </li>
+                                    <li id="2PM-Tuesday">
+                                    </li>
+                                    <li id="3PM-Tuesday">
+                                    </li>
+                                    <li id="4PM-Tuesday">
+                                    </li>
+                                    <li id="5PM-Tuesday">
+                                    </li>
+                                    <li id="6PM-Tuesday">
+                                    </li>
+                                    <li id="7PM-Tuesday">
+                                    </li>
+                                    <li id="8PM-Tuesday">
+                                    </li>
+                                    <li id="9PM-Tuesday">
+                                    </li>
+                                    <li id="10PM-Tuesday">
+                                    </li>
+                                    <li id="11PM-Tuesday">
+                                    </li>
+                                    <li id="12AM-Tuesday">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-weekday="Wednesday" id="Wednesday">
+                                <ul class="day-li">
+                                    <li id="7AM-Wednesday">
+                                    </li>
+                                    <li id="8AM-Wednesday">
+                                    </li>
+                                    <li id="9AM-Wednesday">
+                                    </li>
+                                    <li id="10AM-Wednesday">
+                                    </li>
+                                    <li id="11AM-Wednesday">
+                                    </li>
+                                    <li id="12PM-Wednesday">
+                                    </li>
+                                    <li id="1PM-Wednesday">
+                                    </li>
+                                    <li id="2PM-Wednesday">
+                                    </li>
+                                    <li id="3PM-Wednesday">
+                                    </li>
+                                    <li id="4PM-Wednesday">
+                                    </li>
+                                    <li id="5PM-Wednesday">
+                                    </li>
+                                    <li id="6PM-Wednesday">
+                                    </li>
+                                    <li id="7PM-Wednesday">
+                                    </li>
+                                    <li id="8PM-Wednesday">
+                                    </li>
+                                    <li id="9PM-Wednesday">
+                                    </li>
+                                    <li id="10PM-Wednesday">
+                                    </li>
+                                    <li id="11PM-Wednesday">
+                                    </li>
+                                    <li id="12AM-Wednesday">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-weekday="Thursday" id="Thursday">
+                                <ul class="day-li">
+                                    <li id="7AM-Thursday">
+                                    </li>
+                                    <li id="8AM-Thursday">
+                                    </li>
+                                    <li id="9AM-Thursday">
+                                    </li>
+                                    <li id="10AM-Thursday">
+                                    </li>
+                                    <li id="11AM-Thursday">
+                                    </li>
+                                    <li id="12PM-Thursday">
+                                    </li>
+                                    <li id="1PM-Thursday">
+                                    </li>
+                                    <li id="2PM-Thursday">
+                                    </li>
+                                    <li id="3PM-Thursday">
+                                    </li>
+                                    <li id="4PM-Thursday">
+                                    </li>
+                                    <li id="5PM-Thursday">
+                                    </li>
+                                    <li id="6PM-Thursday">
+                                    </li>
+                                    <li id="7PM-Thursday">
+                                    </li>
+                                    <li id="8PM-Thursday">
+                                    </li>
+                                    <li id="9PM-Thursday">
+                                    </li>
+                                    <li id="10PM-Thursday">
+                                    </li>
+                                    <li id="11PM-Thursday">
+                                    </li>
+                                    <li id="12AM-Thursday">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-weekday="Friday" id="Friday">
+                                <ul class="day-li">
+                                    <li id="7AM-Friday">
+                                    </li>
+                                    <li id="8AM-Friday">
+                                    </li>
+                                    <li id="9AM-Friday">
+                                    </li>
+                                    <li id="10AM-Friday">
+                                    </li>
+                                    <li id="11AM-Friday">
+                                    </li>
+                                    <li id="12PM-Friday">
+                                    </li>
+                                    <li id="1PM-Friday">
+                                    </li>
+                                    <li id="2PM-Friday">
+                                    </li>
+                                    <li id="3PM-Friday">
+                                    </li>
+                                    <li id="4PM-Friday">
+                                    </li>
+                                    <li id="5PM-Friday">
+                                    </li>
+                                    <li id="6PM-Friday">
+                                    </li>
+                                    <li id="7PM-Friday">
+                                    </li>
+                                    <li id="8PM-Friday">
+                                    </li>
+                                    <li id="9PM-Friday">
+                                    </li>
+                                    <li id="10PM-Friday">
+                                    </li>
+                                    <li id="11PM-Friday">
+                                    </li>
+                                    <li id="12AM-Friday">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-weekday="Saturday" id="Saturday">
+                                <ul class="day-li">
+                                    <li id="7AM-Saturday">
+                                    </li>
+                                    <li id="8AM-Saturday">
+                                    </li>
+                                    <li id="9AM-Saturday">
+                                    </li>
+                                    <li id="10AM-Saturday">
+                                    </li>
+                                    <li id="11AM-Saturday">
+                                    </li>
+                                    <li id="12PM-Saturday">
+                                    </li>
+                                    <li id="1PM-Saturday">
+                                    </li>
+                                    <li id="2PM-Saturday">
+                                    </li>
+                                    <li id="3PM-Saturday">
+                                    </li>
+                                    <li id="4PM-Saturday">
+                                    </li>
+                                    <li id="5PM-Saturday">
+                                    </li>
+                                    <li id="6PM-Saturday">
+                                    </li>
+                                    <li id="7PM-Saturday">
+                                    </li>
+                                    <li id="8PM-Saturday">
+                                    </li>
+                                    <li id="9PM-Saturday">
+                                    </li>
+                                    <li id="10PM-Saturday">
+                                    </li>
+                                    <li id="11PM-Saturday">
+                                    </li>
+                                    <li id="12AM-Saturday">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-weekday="Sunday" id="Sunday">
+                                <ul class="day-li">
+                                    <li id="7AM-Sunday">
+                                    </li>
+                                    <li id="8AM-Sunday">
+                                    </li>
+                                    <li id="9AM-Sunday">
+                                    </li>
+                                    <li id="10AM-Sunday">
+                                    </li>
+                                    <li id="11AM-Sunday">
+                                    </li>
+                                    <li id="12PM-Sunday">
+                                    </li>
+                                    <li id="1PM-Sunday">
+                                    </li>
+                                    <li id="2PM-Sunday">
+                                    </li>
+                                    <li id="3PM-Sunday">
+                                    </li>
+                                    <li id="4PM-Sunday">
+                                    </li>
+                                    <li id="5PM-Sunday">
+                                    </li>
+                                    <li id="6PM-Sunday">
+                                    </li>
+                                    <li id="7PM-Sunday">
+                                    </li>
+                                    <li id="8PM-Sunday">
+                                    </li>
+                                    <li id="9PM-Sunday">
+                                    </li>
+                                    <li id="10PM-Sunday">
+                                    </li>
+                                    <li id="11PM-Sunday">
+                                    </li>
+                                    <li id="12AM-Sunday">
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
 
                         <div class="loader" id="loader" style="display:none;" >
@@ -183,29 +462,29 @@
                         <input type="date" id="datepick" name="datepick" required>
                         <input type="time" id="timepick" name="timepick" required>
                         <select id="duration" class="duration" name="duration" required>
-                            <option value=".5">30 min</option>
-                            <option value="1">1 hr</option>
-                            <option value="1.5">1 hour 30 min</option>
-                            <option value="2">2 hours</option>
-                            <option value="2.5">2 hours 30 min</option>
-                            <option value="3">3 hours</option>
-                            <option value="3.5">3 hours 30 min</option>
-                            <option value="4">4 hours</option>
-                            <option value="4.5">4 hours 30 min </option>
-                            <option value="5">5 hours</option>
-                            <option value="5.5">5 hours 30 min</option>
-                            <option value="6">6 hours</option>
-                            <option value="6.5">6 hours 30 min</option>
-                            <option value="7">7 hours</option>
-                            <option value="7.5">7 hours 30 min</option>
-                            <option value="8">8 hours</option>
-                            <option value="8.5">8 hours 30 min</option>
-                            <option value="9">9 hours</option>
+                            <option value="30 min">30 min</option>
+                            <option value="1 hr">1 hr</option>
+                            <option value="1 hour 30 min">1 hour 30 min</option>
+                            <option value="2 hour">2 hours</option>
+                            <option value="2 hours 30 min">2 hours 30 min</option>
+                            <option value="3 hours">3 hours</option>
+                            <option value="3 hours 30 min">3 hours 30 min</option>
+                            <option value="4 hours">4 hours</option>
+                            <option value="4 hours 30 min">4 hours 30 min </option>
+                            <option value="5 hours">5 hours</option>
+                            <option value="5 hours 30 min">5 hours 30 min</option>
+                            <option value="6 hour">6 hours</option>
+                            <option value="6 hours 30 min">6 hours 30 min</option>
+                            <option value="7 hours">7 hours</option>
+                            <option value="7 hours 30 min">7 hours 30 min</option>
+                            <option value="8 hours">8 hours</option>
+                            <option value="8 hours 30 min">8 hours 30 min</option>
+                            <option value="9 hours">9 hours</option>
                         </select>
                         <select id="importance" class="importance" name="importance" required>
-                            <option value="1">Reminder</option>
-                            <option value="2">Task</option>
-                            <option value="3">Important</option>
+                            <option value="yellow">Reminder</option>
+                            <option value="blue">Task</option>
+                            <option value="red">Important</option>
                         </select>
                     </div>
                     
@@ -213,7 +492,7 @@
                     <div class="buttonbox">
                         <button class="calendarSubmitButton" onclick="addEventSubmit('{{username}}');"> Submit </button>
                         <script>
-                            function addEventSubmit(username) { //if am? alert false
+                            function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG INSERTED
                                 //grab the values from title, datepick, and timepick
                                 title = document.getElementById("title").value;
                                 //desc = document.getElementById("desc").value;
@@ -258,16 +537,16 @@
                                 day_name = list_of_days[day];
                                 console.log(day_name);
 
+                                time = (convert(time));
+                                time = time.split(":");
+                                time[1] = time[1].substring(3);
+                                time = time[0] + time[1];
+                            
+                                key = time + "-" + day_name;
+                                console.log(key);
+
                                 if(selectedmonth == currentmonth && selectedyear == currentyear && selectedday <= check){
                                     //add to current calendar
-                                    time = (convert(time));
-                                    time = time.split(":");
-                                    //remove first three indexes of time[1]
-                                    time[1] = time[1].substring(3);
-                                    time = time[0] + time[1];
-                            
-                                    key = time + "-" + day_name;
-                                    console.log(key);
                                     li = document.getElementById(key);
                                     li.innerHTML = `<div class="single-event"><span class="event-title">${title}</span></div>`;
 
@@ -280,6 +559,7 @@
                                             duration: duration,
                                             importance: importance,
                                             desc:desc,
+                                            key: key,
                                             day_name: day_name,
                                             //currentweek: currentweek, #done serverside to account for non current weeks
 

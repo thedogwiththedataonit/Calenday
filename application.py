@@ -53,21 +53,7 @@ def login():
 @application.route("/app/user=<username>", methods=["POST", "GET"])
 def app(username):
 
-    calendar_query = calendar_current_date()
-    calendar_month = calendar_query[0]
-    calendar_year = calendar_query[1]
-    calendar_weekdays = calendar_query[2]
-    calendar_days = calendar_query[3]
-    calendar_active = calendar_query[4]
-    current_week = calendar_query[5]
-    #query calendar information for the currentdate current week
-    return render_template('app.html', username=username, 
-                                        calendar_month=calendar_month, 
-                                        calendar_year=calendar_year,
-                                        calendar_weekdays=calendar_weekdays,
-                                        calendar_days=calendar_days,
-                                        calendar_active=calendar_active,
-                                        current_week=current_week)
+    return render_template('app.html' , username=username)
                                          
                                         
 
@@ -97,7 +83,7 @@ def api_calendar_get(weekID, username):
 def emptycalendar():
     return render_template('emptycalendar.html')
 
-    
+
 if __name__ == "__main__":
     # turn debug off for prodcution deployment
     application.run(debug=True, host='0.0.0.0')

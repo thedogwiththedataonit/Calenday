@@ -322,7 +322,8 @@ function query_next(username) {
             for(i = 0; i < data.length; i++){
 
                 time = data[i].time;
-                key = time+"-"+data[i].day_name;
+                console.log(time)
+                key = data[i].key;
                 console.log(key);
                 //find li with id=key and add the event to it
                 li = document.getElementById(key);
@@ -400,7 +401,8 @@ function query_prev(username) {
             for(i = 0; i < data.length; i++){
 
                 time = data[i].time;
-                key = time+"-"+data[i].day_name;
+                console.log(time)
+                key = data[i].key;
                 console.log(key);
                 //find li with id=key and add the event to it
                 li = document.getElementById(key);
@@ -448,7 +450,6 @@ function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG I
         return
     }
 
-
     currentweek = currentweek.split("-");
     currentmonth = currentweek[0]
     currentday = currentweek[1]
@@ -470,16 +471,16 @@ function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG I
     day_name = list_of_days[day];
     console.log(day_name);
 
+    time = (convert(time));
+    time = time.split(":");
+    time[1] = time[1].substring(3);
+    time = time[0] + time[1];
+ 
+    key = time + "-" + day_name;
+    console.log(key);
+
     if(selectedmonth == currentmonth && selectedyear == currentyear && selectedday <= check){
         //add to current calendar
-        time = (convert(time));
-        time = time.split(":");
-        //remove first three indexes of time[1]
-        time[1] = time[1].substring(3);
-        time = time[0] + time[1];
- 
-        key = time + "-" + day_name;
-        console.log(key);
         li = document.getElementById(key);
         li.innerHTML = `<div class="single-event"><span class="event-title">${title}</span></div>`;
 
@@ -492,6 +493,7 @@ function addEventSubmit(username) { //if am? alert false // THIS IS SCRIPT TAG I
                    duration: duration,
                    importance: importance,
                    desc:desc,
+                   key: key,
                    day_name: day_name,
                    //currentweek: currentweek, #done serverside to account for non current weeks
 
@@ -528,11 +530,47 @@ function convert(input) {
     return moment(input, 'HH:mm').format('h:mm A');
 }
 
-async function pageLoadCalendarData(weekID, username) { //make faster
-    console.log(weekID);
-    console.log(username);
+async function pageLoadCalendarData(username) { //TIE EVENTS WITH A UNIQUE ID
+    date_now = new Date();
+    console.log(date_now)
+    month = date_now.getMonth() + 1;
+    day = date_now.getDate();
+    year = date_now.getFullYear();
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    month_title = months[month-1];
+    day_order = date_now.getDay();
 
-    fetch(`/api/getcalendar/${username}/${weekID}`)
+    if (day_order == 0) {
+        day_order = 7;
+    }
+    //find the max day of the month
+    max_day = new Date(year, month, 0).getDate();
+    week_num_dates = [day-day_order+1, day-day_order+2, day-day_order+3, day-day_order+4, day-day_order+5, day-day_order+6, day-day_order+7];
+    
+    for (i = 0; i < week_num_dates.length; i++) {
+        if (week_num_dates[i] > max_day) {
+            week_num_dates[i] = week_num_dates[i] - max_day;
+        }
+    }
+
+    week_list = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    current_week = month + "-" + week_num_dates[0] + "-" + year;
+    console.log(current_week);
+
+    calendar_days = ["", "", "", "", "", "", ""];
+    calendar_days[day_order-1] = "active";
+
+    document.getElementById("month").innerHTML = month_title + " " + year;
+    document.getElementById("hiddenweekcurrent").innerHTML = current_week;
+    document.getElementById("day-item-Monday").innerHTML = week_num_dates[0];
+    document.getElementById("day-item-Tuesday").innerHTML = week_num_dates[1];
+    document.getElementById("day-item-Wednesday").innerHTML = week_num_dates[2];
+    document.getElementById("day-item-Thursday").innerHTML = week_num_dates[3];
+    document.getElementById("day-item-Friday").innerHTML = week_num_dates[4];
+    document.getElementById("day-item-Saturday").innerHTML = week_num_dates[5];
+    document.getElementById("day-item-Sunday").innerHTML = week_num_dates[6];
+
+    fetch(`/api/getcalendar/${username}/${current_week}`)
     .then(response => response.json())
     .then(data => {
         console.log(data);
@@ -541,7 +579,14 @@ async function pageLoadCalendarData(weekID, username) { //make faster
         //     print(data[i].date)
         for(i = 0; i < data.length; i++){
             //turn military time into standard time
-            
+            importance = data[i].importance;
+            console.log(importance);
+            duration = data[i].duration;
+            console.log(duration);
+            desc = data[i].desc;
+            console.log(desc);
+            //to integer
+    
             time = data[i].time;
             
             //asdd
@@ -556,12 +601,12 @@ async function pageLoadCalendarData(weekID, username) { //make faster
 
     });
     setTimeout(function(){
-		//set loader display to flex for 5 seconds
-		$(loader).css("display", "flex");
-		//set the loader to display none after 5 seconds
-		setTimeout(function(){
-			$(loader).css("display", "none");
-		}
-		, 1800);
-	});
+        //set loader display to flex for 5 seconds
+        $(loader).css("display", "flex");
+        //set the loader to display none after 5 seconds
+        setTimeout(function(){
+            $(loader).css("display", "none");
+        }
+        , 1800);
+    });
 }
