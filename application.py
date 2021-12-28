@@ -12,6 +12,11 @@ from functions import *
 #Maybe do all clientside renderings on login? Rather than on certian button clicks
 #chain the functions on the login maybe?
 
+#Creating a new event on the calendar doesnt work for saturday and sunday on same page instantly,
+#also the cross over weeks (prev month to new month) events dont work, SERVER ERROR
+#DIFF PAGE THAN CURRENT WEEK NO JS INSTANT UPDATE
+
+#reset inputs after adding events and names
 
 
 
@@ -119,6 +124,29 @@ def addfriend():
 @application.route("/api/friendrequests/<username>", methods=["GET"])
 def friendrequests(username):
     data = friend_requests(username)
+    return jsonify(data)
+    
+@application.route("/api/acceptfriend", methods=["GET", "POST"])
+def acceptfriend():
+    if request.method == "POST":
+        data = request.json
+        printit(data)
+        response = accept_friend(data)
+        printit(response)
+        return jsonify(response)
+
+@application.route("/api/rejectfriend", methods=["GET", "POST"])
+def rejectfriend():
+    if request.method == "POST":
+        data = request.json
+        printit(data)
+        response = reject_friend(data)
+        printit(response)
+        return jsonify(response)
+
+@application.route("/api/getfriends/<username>", methods=["GET"])
+def getfriends(username):
+    data = get_friends(username)
     return jsonify(data)
 
 if __name__ == "__main__":

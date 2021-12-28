@@ -28,16 +28,16 @@
                 <ul class="navbar-nav">
                     <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                     <li class="nav-item active" id="dashboard">
-                        <a class="nav-link" href="javascript:void(0);">Dashboard</a>
+                        <a class="nav-link" >Dashboard</a>
                     </li>
                     <li class="nav-item" id="calendar">
-                        <a class="nav-link" href="javascript:void(0);">Calendar</a>
+                        <a class="nav-link" >Calendar</a>
                     </li>
-                    <li class="nav-item" id="friends">
-                        <a class="nav-link" href="javascript:void(0);">Friends</a>
+                    <li class="nav-item" id="friends" onclick="queryfriends('{{username}}');">
+                        <a class="nav-link">Friends</a>
                     </li>
                     <li class="nav-item" id="support">
-                        <a class="nav-link" href="javascript:void(0);">Support</a>
+                        <a class="nav-link" >Support</a>
                     </li>
                 </ul>
             </div>
@@ -686,15 +686,17 @@
             </div>
             
             
-            <div class="content-columns" id="friendrequestsbox" display="none">
-                <h3>Friend Requests</h3>
+            <div class="content-columns" id="friendrequestsbox">
+                <h3 style="color:rgb(83, 83, 83);">Friend Requests</h3>
                 <div class="friendreqcol" id='friendreqcol'>
                   <h3 id="friendreqloading" class="friendreqloading">loading...</h3>
                 </div>
                     
             </div>
-            
-            
+        
+            <div class="content-columns" id="prioritiesbox">
+                <h3 style="color:rgb(83, 83, 83);">Priorities</h3>
+            </div>
               
             </main>
           
@@ -702,12 +704,13 @@
 
         <div class="ui container" id="friends-content">
             <div class="chat-container">
-              <div class="left-bar">
+              <div class="left-bar" id="left-bar">
                 <div class="topfriendbar">
                     <input class="search-bar" type="text" placeholder="Search">
                     <img class="friend-icon" src="/static/img/addfriend.png" onclick="addNewFriend();">
                 </div>
-                <p> You have no friends... </p>
+                <p id="nofriendtag" class="nofriendtag"></p>
+                <div class="friendscontainer" id="friendscontainer"></div>
               </div>
 
               <div class="right-content-chat">

@@ -250,7 +250,41 @@ def friend_requests(username):
     requests = collection.find_one({"username":username})["requests"]
     return requests
 
+def accept_friend(data):
+    username = data["username"]
+    friend = data["friend"]
 
+    cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
+    db = cluster["users"]
+    collection = db["logins"]
+
+    #remove friend from requests
+    collection.update_one({"username":username}, {"$pull":{"requests":friend}})
+    #add friend to friends
+    collection.update_one({"username":username}, {"$push":{"friends":friend}})
+    #add username to friends friends
+    collection.update_one({"username":friend}, {"$push":{"friends":username}})
+    return "Friend added"
+
+def reject_friend(data):
+    username = data["username"]
+    friend = data["friend"]
+
+    cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
+    db = cluster["users"]
+    collection = db["logins"]
+
+    #remove friend from requests
+    collection.update_one({"username":username}, {"$pull":{"requests":friend}})
+    return "Friend rejected"
+
+def get_friends(username):
+    cluster = MongoClient(connection_string, tlsCAFile=certifi.where())
+    db = cluster["users"]
+    collection = db["logins"]
+    friends = collection.find_one({"username":username})["friends"]
+    return friends
+    
 #print(add_friend({"username":"admin", "friend":"lol"}))
 
 
