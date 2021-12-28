@@ -556,17 +556,53 @@ function calendarback() {
     return
 }
 
+function mainActiveNav(id) {
+    var list_ids = ["tasks","friendrequests","priorities"]
+    
+    for(i=0; i<list_ids.length; i++){
+        if(list_ids[i] == id){
+            document.getElementById(list_ids[i]).className = "active";
+        }
+        else{
+            document.getElementById(list_ids[i]).className = "";
+        }
+    }
+    
+
+}
+
 function queryfriendrequests(username) {
     main = document.getElementById("taskscolumn");
     main.style.display = "none";
-    friendrequestbox = document.getElementById("friendrequestbox");
+    friendrequestbox = document.getElementById("friendrequestsbox");
     friendrequestbox.style.display = "flex";
 
+    friendreqcol = document.getElementById("friendreqcol");
+    friendreqcol.innerHTML = "";
+    friendreqloading = document.createElement("h3");
+    friendreqloading.className = "friendreqloading";
+    friendreqloading.id = "friendreqloading";
+    friendreqloading.innerHTML = "Loading...";
+    friendreqcol.appendChild(friendreqloading);
+    
     fetch (`/api/friendrequests/${username}`)
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            
+            friendreqloading.style.display = "none";
+            //for i in range(len(data)):
+            for (i = 0; i < data.length; i++) {
+                //create a div 
+                
+                div = document.createElement("div");
+                div.className = "item";
+                //inner html
+                div.innerHTML = data[i] + "<div class='friendreqbuttonbox'><button class='friendreqbuttonaccept'>Accept</button><button class='friendreqbuttonreject'>Reject</button></div>";
+                //put div into the friendrequestbox
+                friendreqcol.appendChild(div);
+                
+                
+            }
         })
         .catch((error) => {
         console.error('Error:', error);

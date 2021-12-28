@@ -3,13 +3,22 @@ import pymongo
 from pymongo import MongoClient
 import certifi
 import re
-
+from flask_socketio import SocketIO, send
 from mongodb_connectionstring import connection_string
 from functions import *
+
+#Notes
+
+#Maybe do all clientside renderings on login? Rather than on certian button clicks
+#chain the functions on the login maybe?
+
+
 
 
 
 application = Flask(__name__)
+#including a config? What is it? Breaks the routes
+socketio = SocketIO(application)
 
 
 @application.route('/', methods=["POST", "GET"])
@@ -55,7 +64,22 @@ def app(username):
 
     return render_template('app.html' , username=username)
                                          
-                                        
+"========== SOCKETIO CHAT ==========="               
+@socketio.on('connect')
+def connect():
+    print('Client connected')
+    return
+
+@socketio.on('disconnect')
+def disconnect():
+    print('Client disconnected')
+    return
+
+@socketio.on('message')
+def handle_message(message):
+    print('received message: ' + message)
+    send(message, broadcast=True)
+    return                  
 
 
 "========== Api Calendar ==========="
@@ -99,5 +123,5 @@ def friendrequests(username):
 
 if __name__ == "__main__":
     # turn debug off for prodcution deployment
-    application.run(debug=True, host='0.0.0.0')
+    socketio.run(application, debug=True, host='0.0.0.0')
 
