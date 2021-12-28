@@ -18,7 +18,7 @@
         <title>Calenday</title>
     </head>
 
-    <body onload="pageLoadCalendarData('{{username}}')">
+    <body onload="pageLoadCalendarData('{{username}}'); queryfriendrequestcount('{{username}}')"> <!--MAIN FUNCTION??-->
         <nav class="navbar navbar-expand-custom navbar-mainbg">
             <a class="navbar-brand navbar-logo" href="#">Calenday</a>
             <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -633,7 +633,7 @@
                   </a>
                   <a href="#0" id="friendrequests" onclick="queryfriendrequests('{{username}}'); mainActiveNav('friendrequests');">
                     Friend Requests
-                    <span>4</span>
+                    <span id="friendrequestcount"></span>
                   </a>
                   <a href="#0" id="priorities" onclick="mainActiveNav('priorities');">
                     Priorities

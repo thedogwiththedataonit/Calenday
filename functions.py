@@ -254,7 +254,7 @@ def friend_requests(username):
 #print(add_friend({"username":"admin", "friend":"lol"}))
 
 
-print(friend_requests("admin"))
+#print(friend_requests("admin"))
 #print(page_load_calendar_query("11-29-2021", "admin"))
 #print(init_user_db())
 #print(logins("admin", "root"))
