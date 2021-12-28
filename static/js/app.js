@@ -711,6 +711,23 @@ function queryfriends(username){ //make more efficient by maintaining current li
         })
 }
 
+
+function sendchat(username){
+    //get the text in the chatbox
+    var chatbox = document.getElementById("chatinput");
+    var chattext = chatbox.value;
+    //clear the chatbox
+    chatbox.value = "";
+    console.log(chattext);
+
+    data ={
+        "from": username,
+        "to": "all",
+        "message": chattext
+    }
+	socket.send(data);
+
+}
 function convert(input) {
     return moment(input, 'HH:mm').format('h:mm A');
 }

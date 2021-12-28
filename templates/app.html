@@ -14,6 +14,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
         <script type="text/javascript" src="/static/js/app.js"></script>
         <title>Calenday</title>
     </head>
@@ -713,7 +714,22 @@
                 <div class="friendscontainer" id="friendscontainer"></div>
               </div>
 
-              <div class="right-content-chat">
+              <div class="right-content-chat" id="right-content-chat">
+                <div class="bottomchatbox">
+                    <input class="chatinput" type="text" placeholder="Message #LetsPlan" id="chatinput">
+                    <button class="chatsubmit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
+                </div>
+                <script>
+                    var socket = io.connect("http://10.0.0.104:5000/");
+                    socket.on("connect", function() {
+                        console.log('{{username}}'+ "_" +"connected");
+                        }
+                        );
+                    socket.on('message', function(message) {
+                        chatbox = document.getElementById("right-content-chat");
+                        chatbox.innerHTML += message + "<br>";
+                        });
+                </script>
                 <div class="addFriend" id="addFriend" style="display:none;">
                     <div class="back" id="back" onclick="friendback();">
                         <h1>Back</h1>
@@ -728,6 +744,8 @@
                         </div>
                     </div>
                 </div>
+
+
               </div>
             </div>
 

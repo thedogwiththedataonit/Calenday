@@ -315,7 +315,7 @@ Structure might be a bit different from layout to layout
 .addfriendcontent {
   background-color: #ffffff;
   width: 60%;
-  height: 20%;
+  height: 14%;
   overflow: hidden;
   position: relative;
   border-radius: 15px;
@@ -348,7 +348,7 @@ Structure might be a bit different from layout to layout
 .friendresponsebox {
   width: 80%;
   height: 15%;
-  margin-top: 3%;
+  margin-top: 2.5%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2139,10 +2139,39 @@ main > header {
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: #c2c2c2;
+  background-color: #dbdbdb;
   margin: 0 0 0 0;
 }
-
+.bottomchatbox {
+  position: absolute;
+  margin: 0 auto;
+  bottom: 15%;
+  width: 60%;
+  height: 12%;
+  border-radius: 20px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.chatinput {
+  padding: 0.5rem;
+  width: 75%;
+  height: 50%;
+  background-color: #f0f0f0;
+  font-size: 15px;
+}
+.chatsubmit {
+  height: 50%;
+  width: 15%;
+  border: none;
+  border-radius: 15px;
+  background-color: #2753ac;
+  color: #fafafa;
+}
+.chatsubmit:hover {
+  background-color: #009700;
+}
 .left-bar {
   width: 25%;
   float: right;

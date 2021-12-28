@@ -69,21 +69,29 @@ def app(username):
 
     return render_template('app.html' , username=username)
                                          
-"========== SOCKETIO CHAT ==========="               
+"========== SOCKETIO CHAT ==========="   
+clients = 0
+
 @socketio.on('connect')
 def connect():
-    print('Client connected')
+    global clients 
+    clients += 1
+
+    print(str(clients) + " clients connected")
     return
 
 @socketio.on('disconnect')
 def disconnect():
-    print('Client disconnected')
+    global clients 
+    clients -= 1
+
+    print(str(clients) + " clients connected")
     return
 
 @socketio.on('message')
 def handle_message(message):
-    print('received message: ' + message)
-    send(message, broadcast=True)
+    print('received message: ' + (message["message"]))
+    send(str(message["message"]), broadcast=True)
     return                  
 
 
