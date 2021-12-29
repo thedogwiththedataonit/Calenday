@@ -728,27 +728,25 @@
 
                 </div>
 
-                <form class="bottomchatbox">
+                <div class="bottomchatbox">
                     <input class="chatinput" autofocus type="text" placeholder="Message #LetsPlan" id="chatinput">
-                    <button class="chatsubmit" type="submit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
-                </form>
+                    <button class="chatsubmit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
+                </div>
 
                 <script>
-                    var socket = io.connect("http://calenday-env.eba-wvghmmbt.us-east-1.elasticbeanstalk.com/");
+                    var socket = io.connect("http://calenday-env.eba-wvghmmbt.us-east-1.elasticbeanstalk.com/");//http://10.0.0.104:5000/
                     socket.on("connect", function() {
                         console.log('{{username}}'+ "_" +"connected");
                         }
                         );
-
-                    ///USE ROOOMS
-
                     socket.on('message', function(message) {
                         chatbox = document.getElementById("chatbox");
+                        console.log(message);
 
                         if (message.from == '{{username}}') {
                             chatbox.innerHTML += "<div class='selfchatbubble'><p class='selfchatbubbletext'>" + message.message + "</p>" + message.from + "</div>";
                         } else {
-                            chatbox.innerHTML += "<div class='chatbubble'>" + message.from + "<p class='chatbubbletext'>" + message.message + "</p></div>";
+                            chatbox.innerHTML += "<div class='chatbubble'>"+ message.from +"<p class='chatbubbletext'>" + message.message + "</p></div>";
                         }
                         
                         });
