@@ -91,7 +91,7 @@ def disconnect():
 @socketio.on('message')
 def handle_message(message):
     print('received message: ' + (message["message"]))
-    send(str(message["message"]), broadcast=True)
+    send(message, broadcast=True)
     return                  
 
 

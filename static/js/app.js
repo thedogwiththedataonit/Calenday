@@ -696,19 +696,24 @@ function queryfriends(username){ //make more efficient by maintaining current li
                 document.getElementById("nofriendtag").style.display = "none";
                 document.getElementById("friendscontainer").style.display = "flex";
                 //for i in range(len(data)):
+                div = `<div class='frienditem' onclick='updatechatname("All Chat");'>All Chat</div>`;
+                document.getElementById("friendscontainer").innerHTML += div;
+
+
                 for (i = 0; i < data.length; i++) {
                     //create a div 
-                    div = document.createElement("div");
-                    div.className = "frienditem";
-                    //inner html
-                    div.innerHTML = data[i];
-                    //put div into the friendrequestbox
-                    document.getElementById("friendscontainer").appendChild(div);
+                    div = `<div class='frienditem' onclick='updatechatname("${data[i]}");'>${data[i]}</div>`;
+                    //append the div to the friendscontainer
+                    document.getElementById("friendscontainer").innerHTML += div;
 
 
                 }
             }
         })
+}
+
+function updatechatname(name){
+    document.getElementById("chatname").innerHTML = name;
 }
 
 

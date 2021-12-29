@@ -312,6 +312,7 @@ Structure might be a bit different from layout to layout
   justify-content: center;
   align-items: center;
 }
+
 .addfriendcontent {
   background-color: #ffffff;
   width: 60%;
@@ -409,6 +410,7 @@ Structure might be a bit different from layout to layout
   justify-content: center;
   align-items: center;
 }
+
 /* CALENDAR INPUT THING*/
 .group {
   position: relative;
@@ -2153,6 +2155,84 @@ main > header {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+}
+.chatbox {
+  position: absolute;
+  margin: 0 auto;
+  top: 7.5%;
+  width: 75%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+}
+.selfchatbubble {
+  width: auto;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  font-weight: 500;
+}
+.chatbubble {
+  width: auto;
+  height: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  font-weight: 500;
+}
+.chatbubbletext {
+  background-color: #269dffa9;
+  color: #fafafa;
+  border-radius: 20px;
+  padding: 5px 20px 5px 20px;
+  margin: 0 20px 0 20px;
+  font-weight: 350;
+  font-size: 18px;
+}
+.selfchatbubbletext {
+  background-color: #ffb326c9;
+  color: #fafafa;
+  border-radius: 20px;
+  padding: 5px 20px 5px 20px;
+  margin: 0 20px 0 20px;
+  font-weight: 350;
+  font-size: 18px;
+}
+.topchatname {
+  position: absolute;
+  margin: 0 auto;
+  top: 0%;
+  width: 40%;
+  height: 5%;
+  background-color: #ebecee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chatname {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #3b3b3b;
+  padding-bottom: 15px;
+}
+.curvedcornersright {
+  background-color: #dbdbdb;
+  width: 30px;
+  height: 100%;
+  border-top-right-radius: 30px;
+}
+.curvedcornersleft {
+  background-color: #dbdbdb;
+  width: 30px;
+  height: 100%;
+  border-top-left-radius: 30px;
 }
 .chatinput {
   padding: 0.5rem;

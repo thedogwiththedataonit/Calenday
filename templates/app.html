@@ -711,25 +711,49 @@
                     <img class="friend-icon" src="/static/img/addfriend.png" onclick="addNewFriend();">
                 </div>
                 <p id="nofriendtag" class="nofriendtag"></p>
-                <div class="friendscontainer" id="friendscontainer"></div>
+                <div class="friendscontainer" id="friendscontainer">
+
+                </div>
               </div>
 
               <div class="right-content-chat" id="right-content-chat">
-                <div class="bottomchatbox">
-                    <input class="chatinput" type="text" placeholder="Message #LetsPlan" id="chatinput">
-                    <button class="chatsubmit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
+                
+                <div class="topchatname">
+                    <div class="curvedcornersright"></div>
+                    <h3 class="chatname" id="chatname"></h3>
+                    <div class="curvedcornersleft"></div>
                 </div>
+                
+                <div class="chatbox" id="chatbox">
+
+                </div>
+
+                <form class="bottomchatbox">
+                    <input class="chatinput" autofocus type="text" placeholder="Message #LetsPlan" id="chatinput">
+                    <button class="chatsubmit" type="submit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
+                </form>
+
                 <script>
-                    var socket = io.connect("http://10.0.0.104:5000/");
+                    var socket = io.connect("http://calenday-env.eba-wvghmmbt.us-east-1.elasticbeanstalk.com//");
                     socket.on("connect", function() {
                         console.log('{{username}}'+ "_" +"connected");
                         }
                         );
+
+                    ///USE ROOOMS
+
                     socket.on('message', function(message) {
-                        chatbox = document.getElementById("right-content-chat");
-                        chatbox.innerHTML += message + "<br>";
+                        chatbox = document.getElementById("chatbox");
+
+                        if (message.from == '{{username}}') {
+                            chatbox.innerHTML += "<div class='selfchatbubble'><p class='selfchatbubbletext'>" + message.message + "</p>" + message.from + "</div>";
+                        } else {
+                            chatbox.innerHTML += "<div class='chatbubble'>" + message.from + "<p class='chatbubbletext'>" + message.message + "</p></div>";
+                        }
+                        
                         });
                 </script>
+
                 <div class="addFriend" id="addFriend" style="display:none;">
                     <div class="back" id="back" onclick="friendback();">
                         <h1>Back</h1>
