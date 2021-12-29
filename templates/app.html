@@ -728,13 +728,13 @@
 
                 </div>
 
-                <div class="bottomchatbox">
+                <form class="bottomchatbox" action="javascript:void(0);">
                     <input class="chatinput" autofocus type="text" placeholder="Message #LetsPlan" id="chatinput">
-                    <button class="chatsubmit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
-                </div>
+                    <button class="chatsubmit" type="submit" id="chatsubmit" onclick="sendchat('{{username}}')">Send</button>
+                </form>
 
                 <script>
-                    var socket = io.connect("http://calenday-env.eba-wvghmmbt.us-east-1.elasticbeanstalk.com/");//http://10.0.0.104:5000/
+                    var socket = io.connect("http://10.0.0.104:5000/"); //http://10.0.0.104:5000/
                     socket.on("connect", function() {
                         console.log('{{username}}'+ "_" +"connected");
                         }
