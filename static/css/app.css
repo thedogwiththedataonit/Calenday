@@ -2164,7 +2164,9 @@ main > header {
   height: 60%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
+
 .selfchatbubble {
   width: auto;
   height: auto;

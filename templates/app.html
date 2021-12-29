@@ -17,6 +17,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
         <script type="text/javascript" src="/static/js/app.js"></script>
         <title>Calenday</title>
+        <link rel="shortcut icon" href="/static/img/icon.png">
     </head>
 
     <body onload="pageLoadCalendarData('{{username}}'); queryfriendrequestcount('{{username}}')"> <!--MAIN FUNCTION??-->
@@ -741,12 +742,17 @@
                         );
                     socket.on('message', function(message) {
                         chatbox = document.getElementById("chatbox");
+                        
                         console.log(message);
 
                         if (message.from == '{{username}}') {
+                            
                             chatbox.innerHTML += "<div class='selfchatbubble'><p class='selfchatbubbletext'>" + message.message + "</p>" + message.from + "</div>";
+                            chatbox.scrollTop = chatbox.scrollHeight;
+
                         } else {
                             chatbox.innerHTML += "<div class='chatbubble'>"+ message.from +"<p class='chatbubbletext'>" + message.message + "</p></div>";
+                            chatbox.scrollTop = chatbox.scrollHeight;
                         }
                         
                         });
