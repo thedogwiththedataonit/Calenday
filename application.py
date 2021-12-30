@@ -26,7 +26,6 @@ application = Flask(__name__)
 
 #including a config? What is it? Breaks the routes
 socketio = SocketIO(application, cors_allowed_origins="*")
-CORS(application)
 
 
 
