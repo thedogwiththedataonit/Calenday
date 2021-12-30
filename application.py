@@ -25,7 +25,7 @@ from flask_cors import CORS, cross_origin
 application = Flask(__name__)
 
 #including a config? What is it? Breaks the routes
-socketio = SocketIO(application)
+socketio = SocketIO(application, cors_allowed_origins="*")
 CORS(application)
 
 
