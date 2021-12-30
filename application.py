@@ -6,6 +6,7 @@ import re
 from flask_socketio import SocketIO, send
 from mongodb_connectionstring import connection_string
 from functions import *
+from flask_cors import CORS
 
 #Notes
 
@@ -22,8 +23,11 @@ from functions import *
 
 
 application = Flask(__name__)
+
 #including a config? What is it? Breaks the routes
 socketio = SocketIO(application)
+CORS(application)
+
 
 
 @application.route('/', methods=["POST", "GET"])
