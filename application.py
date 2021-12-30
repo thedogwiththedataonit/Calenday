@@ -6,7 +6,7 @@ import re
 from flask_socketio import SocketIO, send
 from mongodb_connectionstring import connection_string
 from functions import *
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 #Notes
 
@@ -77,6 +77,7 @@ def app(username):
 clients = 0
 
 @socketio.on('connect')
+@cross_origin()
 def connect():
     global clients 
     clients += 1
@@ -85,6 +86,7 @@ def connect():
     return
 
 @socketio.on('disconnect')
+@cross_origin()
 def disconnect():
     global clients 
     clients -= 1
@@ -93,6 +95,7 @@ def disconnect():
     return
 
 @socketio.on('message')
+@cross_origin()
 def handle_message(message):
     print('received message: ' + (message["message"]))
     send(message, broadcast=True)
