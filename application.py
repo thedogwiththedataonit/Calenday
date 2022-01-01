@@ -8,6 +8,7 @@ from mongodb_connectionstring import connection_string
 from functions import *
 from flask_cors import CORS, cross_origin
 
+
 #Notes
 
 #Maybe do all clientside renderings on login? Rather than on certian button clicks
@@ -166,5 +167,5 @@ def getfriends(username):
 
 if __name__ == "__main__":
     # turn debug off for prodcution deployment
-    socketio.run(application, debug=True, host='0.0.0.0')
+    socketio.run(application, debug=True, host='0.0.0.0', port=5000) #, threaded=True
 
