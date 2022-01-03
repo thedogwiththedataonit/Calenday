@@ -82,7 +82,6 @@ clients = 0
 def connect():
     global clients 
     clients += 1
-
     print(str(clients) + " clients connected")
     return
 
