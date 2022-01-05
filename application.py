@@ -20,6 +20,9 @@ from flask_cors import CORS, cross_origin
 
 #reset inputs after adding events and names
 
+#WORK ON
+#THE CALENDAR IS STILL BUGGY, INSTANT UPDATE FOR CURRENT WEEK, ALSO CHECK TEH ENDING AND STARTING weeks
+#Websockets dont work on calenday.me only the elasticbeanstalk site url
 
 
 
